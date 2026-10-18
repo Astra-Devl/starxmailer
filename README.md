@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📬 starxmailer
+# 📬 @astracode/mailer
 
 **Kirim email lewat API HTTP dengan antarmuka ala Nodemailer.**
 Tanpa SMTP, tanpa port yang diblokir.
@@ -30,7 +30,7 @@ Tanpa SMTP, tanpa port yang diblokir.
 ## 📥 Install
 
 ```bash
-npm install starxmailer
+npm install @astracode/mailer
 ```
 
 ---
@@ -49,7 +49,7 @@ Simpan kodenya sebagai `email.js`. Format modul ditentukan oleh `package.json` p
 **ESM** (`import`)
 
 ```js
-import { createTransport } from "starxmailer";
+import { createTransport } from "@astracode/mailer";
 
 const mailer = createTransport({
     provider: "resend",
@@ -70,7 +70,7 @@ console.log(info.messageId, info.accepted);
 **CommonJS** (`require`)
 
 ```js
-const { createTransport } = require("starxmailer");
+const { createTransport } = require("@astracode/mailer");
 
 const mailer = createTransport({
     provider: "resend",
@@ -98,7 +98,7 @@ main().catch(console.error);
 **ESM** (`import`)
 
 ```js
-import { createTransport } from "starxmailer";
+import { createTransport } from "@astracode/mailer";
 
 const mailer = createTransport({
     provider: "brevo",
@@ -119,7 +119,7 @@ console.log(info.messageId, info.accepted);
 **CommonJS** (`require`)
 
 ```js
-const { createTransport } = require("starxmailer");
+const { createTransport } = require("@astracode/mailer");
 
 const mailer = createTransport({
     provider: "brevo",
@@ -147,7 +147,7 @@ main().catch(console.error);
 **ESM** (`import`)
 
 ```js
-import { createTransport } from "starxmailer";
+import { createTransport } from "@astracode/mailer";
 
 const mailer = createTransport({
     provider: "gmail",
@@ -168,7 +168,7 @@ console.log(info.messageId, info.accepted);
 **CommonJS** (`require`)
 
 ```js
-const { createTransport } = require("starxmailer");
+const { createTransport } = require("@astracode/mailer");
 
 const mailer = createTransport({
     provider: "gmail",
@@ -252,7 +252,7 @@ Selama status masih **Testing**, refresh token mati dalam **7 hari**.
 **ESM** (`make-key.js`, `"type": "module"`)
 
 ```js
-import { createGmailKey } from "starxmailer";
+import { createGmailKey } from "@astracode/mailer";
 
 console.log(
     createGmailKey({
@@ -266,7 +266,7 @@ console.log(
 **CommonJS** (`make-key.js`, `"type": "commonjs"`)
 
 ```js
-const { createGmailKey } = require("starxmailer");
+const { createGmailKey } = require("@astracode/mailer");
 
 console.log(
     createGmailKey({
@@ -296,6 +296,6 @@ GMAIL_API_KEY=gm_eyJjbGllbnRJZCI6...
 
 <div align="center">
 
-MIT License · **starxmailer** 📬
+MIT License · **AstraCodeX** 📬
 
 </div>
