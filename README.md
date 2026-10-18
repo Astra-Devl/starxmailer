@@ -19,7 +19,7 @@ Tanpa SMTP, tanpa port yang diblokir.
 
 `starxmailer` mengirim email lewat API HTTP (port 443), bukan SMTP. Cocok untuk VPS yang memblokir port 25, 465, dan 587 seperti DigitalOcean.
 
-- 🔌 Provider: **Resend**, **Brevo**, dan **Gmail API**
+- 🔌 Provider: <img src="https://cdn.simpleicons.org/resend/000000" width="16" height="16" align="center"> **Resend**, <img src="https://cdn.simpleicons.org/brevo/0B996E" width="16" height="16" align="center"> **Brevo**, dan <img src="https://cdn.simpleicons.org/gmail/EA4335" width="16" height="16" align="center"> **Gmail API**
 - 🧩 Antarmuka mirip Nodemailer: `createTransport()` dan `sendMail()`
 - 👥 Banyak penerima: `to`, `cc`, `bcc` bisa array atau string dipisah koma
 - 📦 Mendukung ESM dan CommonJS, lengkap dengan tipe TypeScript
@@ -37,11 +37,19 @@ npm install starxmailer
 
 ## 🚀 Contoh Kode
 
-### 🟣 Resend
+Simpan kodenya sebagai `email.js`. Format modul ditentukan oleh `package.json` proyek Anda:
+
+| `package.json` | Format | Pakai contoh |
+|---|---|---|
+| `"type": "module"` | ESM | `import` |
+| `"type": "commonjs"` (atau tidak ada `type`) | CommonJS | `require` |
+
+### <img src="https://cdn.simpleicons.org/resend/000000" width="22" height="22" align="center" alt="Resend"> Resend
+
+**ESM** (`import`)
 
 ```js
 import { createTransport } from "starxmailer";
-// CommonJS: const { createTransport } = require("starxmailer");
 
 const mailer = createTransport({
     provider: "resend",
@@ -59,7 +67,35 @@ const info = await mailer.sendMail({
 console.log(info.messageId, info.accepted);
 ```
 
-### 🔵 Brevo
+**CommonJS** (`require`)
+
+```js
+const { createTransport } = require("starxmailer");
+
+const mailer = createTransport({
+    provider: "resend",
+    apiKey: process.env.RESEND_API_KEY
+});
+
+async function main() {
+    const info = await mailer.sendMail({
+        from: '"Nama Saya" <noreply@domainanda.com>',
+        to: ["a@gmail.com", "b@yahoo.com"],
+        subject: "Halo 👋",
+        text: "Isi email versi teks",
+        html: "<h2>Isi email versi HTML</h2>"
+    });
+
+    console.log(info.messageId, info.accepted);
+}
+
+main().catch(console.error);
+```
+
+
+### <img src="https://cdn.simpleicons.org/brevo/0B996E" width="22" height="22" align="center" alt="Brevo"> Brevo
+
+**ESM** (`import`)
 
 ```js
 import { createTransport } from "starxmailer";
@@ -80,14 +116,42 @@ const info = await mailer.sendMail({
 console.log(info.messageId, info.accepted);
 ```
 
-### 📧 Gmail
+**CommonJS** (`require`)
+
+```js
+const { createTransport } = require("starxmailer");
+
+const mailer = createTransport({
+    provider: "brevo",
+    apiKey: process.env.BREVO_API_KEY
+});
+
+async function main() {
+    const info = await mailer.sendMail({
+        from: '"Nama Saya" <emailterverifikasi@domainanda.com>',
+        to: ["a@gmail.com", "b@yahoo.com"],
+        subject: "Halo 👋",
+        text: "Isi email versi teks",
+        html: "<h2>Isi email versi HTML</h2>"
+    });
+
+    console.log(info.messageId, info.accepted);
+}
+
+main().catch(console.error);
+```
+
+
+### <img src="https://cdn.simpleicons.org/gmail/EA4335" width="22" height="22" align="center" alt="Gmail"> Gmail
+
+**ESM** (`import`)
 
 ```js
 import { createTransport } from "starxmailer";
 
 const mailer = createTransport({
     provider: "gmail",
-    apiKey: process.env.GMAIL_API_KEY // berformat gm_xxx, lihat cara membuatnya di bawah
+    apiKey: process.env.GMAIL_API_KEY
 });
 
 const info = await mailer.sendMail({
@@ -101,7 +165,33 @@ const info = await mailer.sendMail({
 console.log(info.messageId, info.accepted);
 ```
 
-> Untuk Gmail, alamat `from` harus akun Gmail pemilik token.
+**CommonJS** (`require`)
+
+```js
+const { createTransport } = require("starxmailer");
+
+const mailer = createTransport({
+    provider: "gmail",
+    apiKey: process.env.GMAIL_API_KEY
+});
+
+async function main() {
+    const info = await mailer.sendMail({
+        from: '"Nama Saya" <emailanda@gmail.com>',
+        to: ["a@gmail.com", "b@yahoo.com"],
+        subject: "Halo 👋",
+        text: "Isi email versi teks",
+        html: "<h2>Isi email versi HTML</h2>"
+    });
+
+    console.log(info.messageId, info.accepted);
+}
+
+main().catch(console.error);
+```
+
+> Untuk Gmail, `apiKey` berformat `gm_xxx` dan alamat `from` harus akun Gmail pemilik token. Cara membuatnya ada di bagian berikutnya.
+
 
 ---
 
@@ -159,8 +249,9 @@ Selama status masih **Testing**, refresh token mati dalam **7 hari**.
 
 ### 6️⃣ Gabungkan jadi satu `apiKey`
 
+**ESM** (`make-key.js`, `"type": "module"`)
+
 ```js
-// create-apikey.js
 import { createGmailKey } from "starxmailer";
 
 console.log(
@@ -172,8 +263,24 @@ console.log(
 );
 ```
 
+**CommonJS** (`make-key.js`, `"type": "commonjs"`)
+
+```js
+const { createGmailKey } = require("starxmailer");
+
+console.log(
+    createGmailKey({
+        clientId: "xxxx.apps.googleusercontent.com",
+        clientSecret: "GOCSPX-xxxx",
+        refreshToken: "1//xxxx"
+    })
+);
+```
+
+Jalankan:
+
 ```bash
-node create-apikey.js
+node make-key.js
 # gm_eyJjbGllbnRJZCI6...
 ```
 
