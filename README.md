@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📬 httpmailer
+# 📬 STARXMAILER
 
 **Kirim email lewat API HTTP dengan antarmuka ala Nodemailer.**
 Tanpa SMTP. Tanpa port yang diblokir. Jalan mulus di DigitalOcean, Railway, Vercel, dan VPS mana pun.
@@ -35,7 +35,7 @@ Tanpa SMTP. Tanpa port yang diblokir. Jalan mulus di DigitalOcean, Railway, Verc
 ## 📥 Install
 
 ```bash
-npm install httpmailer
+npm install starxmailer
 ```
 
 > Butuh **Node.js 18 atau lebih baru**.
@@ -45,8 +45,8 @@ npm install httpmailer
 ## 🚀 Mulai Cepat
 
 ```js
-import { createTransport } from "httpmailer";
-// CommonJS: const { createTransport } = require("httpmailer");
+import { createTransport } from "starxmailer";
+// CommonJS: const { createTransport } = require("starxmailer");
 
 const mailer = createTransport({
     provider: "resend",
@@ -201,7 +201,7 @@ Selama status masih **Testing**, refresh token mati dalam **7 hari**.
 
 ```js
 // make-key.mjs
-import { createGmailKey } from "httpmailer";
+import { createGmailKey } from "starxmailer";
 
 console.log(
     createGmailKey({
@@ -250,7 +250,7 @@ Tidak. Library otomatis meminta **access token** baru (umurnya ±1 jam) memakai 
 
 | Masalah | Penyebab | Solusi |
 |---|---|---|
-| `ETIMEDOUT` saat memakai SMTP | Provider VPS memblokir port SMTP | Pakai httpmailer (HTTPS port 443) |
+| `ETIMEDOUT` saat memakai SMTP | Provider VPS memblokir port SMTP | Pakai starxmailer (HTTPS port 443) |
 | *Akses diblokir: belum menyelesaikan verifikasi* | Akun belum jadi Test user | Tambahkan di **Audience → Test users** |
 | `invalid_grant` | Refresh token kedaluwarsa atau dicabut | Publish ke production, ambil token baru, buat ulang `gm_...` |
 | `insufficient authentication scopes` | Scope `gmail.send` belum dipilih | Ulangi langkah 4 dengan scope yang benar |
@@ -264,7 +264,7 @@ Tidak. Library otomatis meminta **access token** baru (umurnya ±1 jam) memakai 
 ## 📁 Struktur Proyek
 
 ```
-httpmailer/
+starxmailer/
 ├── package.json
 ├── tsconfig.json
 ├── tsup.config.ts
@@ -299,7 +299,7 @@ npm publish          # atau: npm publish --access public (untuk paket ber-scope)
 
 ```json
 {
-  "name": "httpmailer",
+  "name": "starxmailer",
   "version": "2.0.0",
   "description": "Kirim email lewat API HTTP dengan antarmuka mirip Nodemailer",
   "type": "module",
@@ -803,7 +803,7 @@ export function createTransport(options: TransportOptions): Transport {
 
 <div align="center">
 
-**httpmailer** · dibuat supaya email tetap terkirim saat port SMTP ditutup 📭➡️📬
+**starxmailer** · dibuat supaya email tetap terkirim saat port SMTP ditutup 📭➡️📬
 
 MIT License
 
