@@ -1,7 +1,14 @@
 import { brevo } from "./providers/brevo";
 import { gmail } from "./providers/gmail";
 import { resend } from "./providers/resend";
-import type { MailOptions, ProviderSend, SendResult, Transport, TransportOptions } from "./types";
+import type {
+    AddressInput,
+    MailOptions,
+    ProviderSend,
+    SendResult,
+    Transport,
+    TransportOptions
+} from "./types";
 import { parseAddress, toArray } from "./utils";
 
 export type * from "./types";
@@ -27,8 +34,9 @@ export function createTransport(options: TransportOptions): Transport {
         async sendMail(mail: MailOptions): Promise<SendResult> {
             if (!mail.from) throw new Error("Field 'from' wajib diisi");
 
-            const to = toArray(mail.to)
-                .flatMap((t) => (typeof t === "string" ? t.split(",") : [t]))
+            const to = toArray<AddressInput>(mail.to)
+                .flatMap((t): AddressInput[] => (typeof t === "string" ? t.split(",") : [t]))
+                .filter((t) => typeof t !== "string" || t.trim() !== "")
                 .map(parseAddress);
 
             if (to.length === 0) throw new Error("Field 'to' wajib diisi");
@@ -37,8 +45,8 @@ export function createTransport(options: TransportOptions): Transport {
             const message = {
                 from: parseAddress(mail.from),
                 to,
-                cc: toArray(mail.cc).map(parseAddress),
-                bcc: toArray(mail.bcc).map(parseAddress),
+                cc: toArray<AddressInput>(mail.cc).map(parseAddress),
+                bcc: toArray<AddressInput>(mail.bcc).map(parseAddress),
                 replyTo: mail.replyTo ? parseAddress(mail.replyTo) : null,
                 subject: mail.subject ?? "",
                 text: mail.text,
